@@ -1,7 +1,8 @@
 package com.istad.homeworkrestfulapi.controller;
 
 import com.istad.homeworkrestfulapi.model.User;
-import com.istad.homeworkrestfulapi.repository.UserRepository;
+import com.istad.homeworkrestfulapi.service.UserService;
+import com.istad.homeworkrestfulapi.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,14 +14,18 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
-
-    @GetMapping("/")
-    public List<User> getAllUser(){
-        return userRepository.getAllUser();
+    @GetMapping("/allUsers")
+    public Response<List<User>> getALlUSer(){
+        try {
+            List<User> response = userService.getAllUser();
+            return Response.<List<User>>ok().setPayload(response).setMessage("Successfully retrieved all user!!!");
+        }catch (Exception e){
+            return Response.<List<User>>exception().setMessage("Failed to retrieved the users!!!! Exception occurs");
+        }
     }
 }
