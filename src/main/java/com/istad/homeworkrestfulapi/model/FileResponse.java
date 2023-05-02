@@ -8,9 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
-public class FileResponse<T> {
-    private T payload;
+public class FileResponse {
+    private String file;
     private String message;
-    private Integer status;
 }
